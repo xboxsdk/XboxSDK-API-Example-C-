@@ -48,190 +48,154 @@ namespace ExampleApp
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (apikey.Text == "" || apikey.Text == null)
-            {
-                MessageBox.Show("Error: I need an API Key");
-                return;
-            }
-            
-            // our api url
-            String url = "http://savelab.net/v2/index.php/api/user/" + apikey.Text;
-
-            // build our api request
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-
-            // setup some reasonable limits on resources used by this request
-            request.MaximumAutomaticRedirections = 4;
-            request.MaximumResponseHeadersLength = 4;
-
-            // setup credentials to use for this request.
-            request.Credentials = CredentialCache.DefaultCredentials;
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-            // get the stream associated with the response.
-            Stream receiveStream = response.GetResponseStream();
-
-            // pipes the stream to a higher level stream reader with the required encoding format. 
-            StreamReader readStream = new StreamReader(receiveStream, Encoding.UTF8);
-
-            // read our API response
-            string json_data = readStream.ReadToEnd();
-
-            // deserialize our json data into a nice JObject (thanks Newtonsoft <3)
-            JObject user_info = JObject.Parse(json_data);
-
-            listBox1.Items.Add("------------------------ JSON RESPONSE ----------------");
-            listBox1.Items.Add("JSON Data: " + json_data);
-            listBox1.Items.Add("------------------------ END RESPONSE ----------------");
-            listBox1.Items.Add(" ");
-            listBox1.Items.Add("------------------------ Formatted Data ----------------");
-            listBox1.Items.Add(" ");
-            listBox1.Items.Add("Username: " + user_info["user_name"]);
-            listBox1.Items.Add("Email: " + user_info["user_email"]);
-            listBox1.Items.Add("Alias: " + user_info["user_alias"]);
-
-            listBox1.Items.Add(" ");
-            listBox1.Items.Add(" ");
-
-            response.Close();
-            readStream.Close();
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            listBox1.Items.Clear();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (apikey.Text == "" || apikey.Text == null)
-            {
-                MessageBox.Show("Error: I need an API Key");
-                return;
-            }
-
-            // our api url
-            String url = "http://savelab.net/v2/index.php/api/profiles/" + apikey.Text;
-
-            // build our api request
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-
-            // setup some reasonable limits on resources used by this request
-            request.MaximumAutomaticRedirections = 4;
-            request.MaximumResponseHeadersLength = 4;
-
-            // setup credentials to use for this request.
-            request.Credentials = CredentialCache.DefaultCredentials;
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-            // get the stream associated with the response.
-            Stream receiveStream = response.GetResponseStream();
-
-            // pipes the stream to a higher level stream reader with the required encoding format. 
-            StreamReader readStream = new StreamReader(receiveStream, Encoding.UTF8);
-
-            // read our API response
-            string json_data = readStream.ReadToEnd();
-
-            // deserialize our json data into a nice JObject (thanks Newtonsoft <3)
-            JArray user_profiles = JArray.Parse(json_data);
-            //JObject user_profiles = JObject.Parse(json_data);
-
-            listBox1.Items.Add("------------------------ JSON RESPONSE ----------------");
-            listBox1.Items.Add("JSON Data: " + json_data);
-            listBox1.Items.Add("------------------------ END RESPONSE ----------------");
-            listBox1.Items.Add(" ");
-            listBox1.Items.Add("------------------------ Formatted Data ----------------");
-            listBox1.Items.Add(" ");
-
-            foreach (JObject profile in user_profiles)
-            {
-                listBox1.Items.Add("---------------- Profile [ " + profile["id"] + " ]  ----------------");
-                listBox1.Items.Add("Profile Name: " + profile["profile_name"]);
-                listBox1.Items.Add("Profile ID: " + profile["profile_id"]);
-                listBox1.Items.Add(" ");
-            }
-
-            listBox1.Items.Add(" ");
-            listBox1.Items.Add(" ");
-
-            response.Close();
-            readStream.Close();
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            if (apikey.Text == "" || apikey.Text == null)
-            {
-                MessageBox.Show("Error: I need an API Key");
-                return;
-            }
-
-            // our api url
-            String url = "http://savelab.net/v2/index.php/api/download/" + apikey.Text + "/" + dlid.Text;
-
-            // build our api request
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-
-            // setup some reasonable limits on resources used by this request
-            request.MaximumAutomaticRedirections = 4;
-            request.MaximumResponseHeadersLength = 4;
-
-            // setup credentials to use for this request.
-            request.Credentials = CredentialCache.DefaultCredentials;
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-            // listbox output
-            listBox1.Items.Add("Downloading Save ID: 1...");
-
-            // get the stream associated with the response.
-            Stream receiveStream = response.GetResponseStream();
-
-            // pipes the stream to a higher level stream reader with the required encoding format. 
-            StreamReader readStream = new StreamReader(receiveStream, Encoding.UTF8);
-
-            // read our API response
-            string json_data = readStream.ReadToEnd();
-
-            // listbox output
-            listBox1.Items.Add("Save Downloaded!");
-
-            // deserialize our json data into a nice JObject (thanks Newtonsoft <3)
-            JObject user_download = JObject.Parse(json_data);
-
-            // get our real filename
-            string file_name = (string)user_download["filename"];
-
-            // listbox output
-            listBox1.Items.Add("Writing out save to: " + Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + file_name);
-            
-            // get our save file data as a base64 encoded string
-            byte[] fileData = Convert.FromBase64String((string)user_download["data"]);
-
-            // write ouRRRRRR byte[] array to rrRRRRR save, says pirate pete.
-            System.IO.File.WriteAllBytes( Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + file_name, fileData );
-
-            MessageBox.Show("Finsihed!");
-
-            listBox1.Items.Add(" ");
-            listBox1.Items.Add(" ");
-
-            response.Close();
-            readStream.Close();
-        }
-
+        // on our form load read api.key file if it exists
         private void Form1_Load(object sender, EventArgs e)
         {
             if (File.Exists(Environment.CurrentDirectory + @"\api.key"))
                 apikey.Text = File.ReadAllText(Environment.CurrentDirectory + @"\api.key");
         }
+        
+        // function will get user info from our api
+        private void GetUserInfo_Click(object sender, EventArgs e)
+        {
+            // our api uri
+            string uri = "https://xboxsdk.com/api/user/" + apikey.Text;
 
+            // query API get our api response
+            JObject api_response = APIQuery(uri);
+
+            // check to see if our API query was a success or not
+            if ((bool)api_response["success"])
+            {
+                listBox1.Items.Add(" Username: \t" + api_response["data"]["user_name"]);
+                listBox1.Items.Add(" Email: \t\t" + api_response["data"]["user_email"]);
+                listBox1.Items.Add(" Alias: \t\t" + api_response["data"]["user_alias"]);
+            }
+            else
+            {
+                MessageBox.Show("Error: " + api_response["error"]);
+            }
+        }
+
+        // function will get users profiles
+        private void GetProfiles_Click(object sender, EventArgs e)
+        {
+            // our api uri
+            string uri = "https://xboxsdk.com/api/profiles/" + apikey.Text;
+
+            // query API and get response
+            JObject api_response = APIQuery(uri);
+
+            // check to see if our API query was a success
+            if ((bool)api_response["success"])
+            {   
+                foreach (JObject profile in api_response["data"])
+                {
+                    listBox1.Items.Add("---------------- Profile ----------------");
+                    listBox1.Items.Add("ID: \t\t" + profile["id"]); 
+                    listBox1.Items.Add("Profile Name: \t" + profile["profile_name"]);
+                    listBox1.Items.Add("Profile ID: \t" + profile["profile_id"]);
+                    listBox1.Items.Add(" ");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Error: " + api_response["error"]);
+            }
+        }
+
+        // function to download a save
+        private void DownloadSave_Click(object sender, EventArgs e)
+        {
+            string uri = null;
+
+            // our api uri
+            if (MessageBox.Show("Do you want to resign this download with the Profile ID?", "Resign?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                uri = "https://xboxsdk.com/api/resign/" + apikey.Text + "/" + dlid.Text + "/" + pfid.Text;    
+            else
+                uri = "https://xboxsdk.com/api/download/" + apikey.Text + "/" + dlid.Text;
+
+            // query API and get response
+            JObject api_response = APIQuery(uri);
+
+            // check to see if our API query was a success
+            if ((bool)api_response["success"])
+            {
+                // listbox output
+                listBox1.Items.Add("Downloading Save ID: " + dlid.Text);
+
+                // get our real filename
+                string file_name = (string)api_response["data"]["file_name"];
+
+                // get our save file data as a base64 encoded string
+                byte[] fileData = Convert.FromBase64String((string)api_response["data"]["file_data"]);
+
+                // write ouRRRRRR byte[] array to rrRRRRR save, says pirate pete.
+                System.IO.File.WriteAllBytes(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + file_name, fileData);
+
+                // output
+                listBox1.Items.Add("Finished" + dlid.Text);
+                listBox1.Items.Add("Writing out save to: " + Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + file_name);
+            }
+            else
+            {
+                MessageBox.Show("Error: " + api_response["error"]);
+            }
+        }
+
+        // function to save api key to api.key file
         private void button5_Click(object sender, EventArgs e)
         {
             File.WriteAllText(Environment.CurrentDirectory + @"\api.key", apikey.Text);
+        }
+
+        // function to clear our listbox
+        private void button3_Click(object sender, EventArgs e)
+        {
+            listBox1.Items.Clear();
+        }
+
+        // APIQuery
+        // function will call XboxSDK API with the passed uri and return it's response
+        // note: XboxSDK will always return from within an array and will always
+        //       have the "success" key with a bool value if the API call was a success
+        //       or not.
+        // 
+        //       If the "success" key is true "data" key will be present
+        //       if false then "error" will be present with a string of the error
+        public JObject APIQuery(string api_uri)
+        {
+            if (apikey.Text == "" || apikey.Text == null)
+            {
+                MessageBox.Show("Error: I need an API Key");
+                return null;
+            }
+
+            // build our api request
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(api_uri);
+
+            // setup some reasonable limits on resources used by this request
+            request.MaximumAutomaticRedirections = 4;
+            request.MaximumResponseHeadersLength = 4;
+
+            // setup credentials to use for this request.
+            request.Credentials = CredentialCache.DefaultCredentials;
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+            // get the stream associated with the response.
+            Stream receiveStream = response.GetResponseStream();
+
+            // pipes the stream to a higher level stream reader with the required encoding format. 
+            StreamReader readStream = new StreamReader(receiveStream, Encoding.UTF8);
+
+            // read our API response
+            string json_data = readStream.ReadToEnd();
+
+            response.Close();
+            readStream.Close();
+
+            // deserialize our json data into a nice JObject (thanks Newtonsoft <3)
+            return JObject.Parse(json_data);
         }
     }
     
