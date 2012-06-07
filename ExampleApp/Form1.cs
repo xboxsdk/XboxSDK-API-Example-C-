@@ -31,6 +31,16 @@ using System.Collections.Specialized;
 // XXXXXXX       XXXXXXX bbbbbbbbbbbbbbbb      ooooooooooo xxxxxxx      xxxxxxx SSSSSSSSSSSSSSS   DDDDDDDDDDDDD       KKKKKKKKK    KKKKKKK
 // =========================================================================================================================================
 // https://xboxsdk.com & https://xboxapi.com
+// 
+// Note: Please not that all calls made from this application are using the sandbox.xboxsdk.com URI NOT the live website xboxsdk.com.
+// 
+//       Developers please use sandbox.xboxsdk.com for testing and development purposes. Only begin using the live enviroment once you
+//       are satisified with your application.
+//       
+//       The certificate for sandbox.xboxsdk.com is NOT valid, it's the cert from xboxsdk.com
+//       We've only placed it on the sandbox domain for security reasons to ensure all users are always using https.
+
+
 
 /**
  * In this example we used Newtonsoft's JSON Parsing libarary.
@@ -61,7 +71,7 @@ namespace ExampleApp
         private void GetUserInfo_Click(object sender, EventArgs e)
         {
             // our api uri
-            string uri = "https://xboxsdk.com/api/user/" + apikey.Text;
+            string uri = "https://sandbox.xboxsdk.com/api/user/" + apikey.Text;
 
             // query API get our api response
             JObject api_response = APIQuery(uri);
@@ -83,7 +93,7 @@ namespace ExampleApp
         private void GetProfiles_Click(object sender, EventArgs e)
         {
             // our api uri
-            string uri = "https://xboxsdk.com/api/profiles/" + apikey.Text;
+            string uri = "https://sandbox.xboxsdk.com/api/profiles/" + apikey.Text;
 
             // query API and get response
             JObject api_response = APIQuery(uri);
@@ -113,9 +123,9 @@ namespace ExampleApp
 
             // our api uri
             if (MessageBox.Show("Do you want to resign this download with the Profile ID?", "Resign?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                uri = "https://xboxsdk.com/api/resign/" + apikey.Text + "/" + dlid.Text + "/" + pfid.Text;    
+                uri = "https://sandbox.xboxsdk.com/api/resign/" + apikey.Text + "/" + dlid.Text + "/" + pfid.Text;    
             else
-                uri = "https://xboxsdk.com/api/download/" + apikey.Text + "/" + dlid.Text;
+                uri = "https://sandbox.xboxsdk.com/api/download/" + apikey.Text + "/" + dlid.Text;
 
             // query API and get response
             JObject api_response = APIQuery(uri);
@@ -163,7 +173,7 @@ namespace ExampleApp
             string file = null;
 
             // build our API uri call
-            string uri = "https://xboxsdk.com/api/upload/" + apikey.Text;
+            string uri = "https://sandbox.xboxsdk.com/api/upload/" + apikey.Text;
 
             // open our save
             OpenFileDialog odlg = new OpenFileDialog();
