@@ -37,8 +37,6 @@ using System.Collections.Specialized;
 //       Developers please use sandbox.xboxsdk.com for testing and development purposes. Only begin using the live enviroment once you
 //       are satisified with your application.
 //       
-//       The certificate for sandbox.xboxsdk.com is NOT valid, it's the cert from xboxsdk.com
-//       We've only placed it on the sandbox domain for security reasons to ensure all users are always using https.
 
 
 
@@ -55,6 +53,13 @@ namespace ExampleApp
 {
     public partial class Form1 : Form
     {
+        // the URI for our live server
+        //public string api_uri = "https://xboxsdk.com";
+
+        // the URI for our sandbox (development and testing purposes)
+        // note: all data will be reset at 1:00am EST
+        public string api_uri = "http://sandbox.xboxsdk.com";
+
         public Form1()
         {
             InitializeComponent();
@@ -71,7 +76,7 @@ namespace ExampleApp
         private void GetUserInfo_Click(object sender, EventArgs e)
         {
             // our api uri
-            string uri = "https://sandbox.xboxsdk.com/api/user/" + apikey.Text;
+            string uri = api_uri + "/api/user/" + apikey.Text;
 
             // query API get our api response
             JObject api_response = APIQuery(uri);
@@ -93,7 +98,7 @@ namespace ExampleApp
         private void GetProfiles_Click(object sender, EventArgs e)
         {
             // our api uri
-            string uri = "https://sandbox.xboxsdk.com/api/profiles/" + apikey.Text;
+            string uri = api_uri + "/api/profiles/" + apikey.Text;
 
             // query API and get response
             JObject api_response = APIQuery(uri);
@@ -123,9 +128,9 @@ namespace ExampleApp
 
             // our api uri
             if (MessageBox.Show("Do you want to resign this download with the Profile ID?", "Resign?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                uri = "https://sandbox.xboxsdk.com/api/resign/" + apikey.Text + "/" + dlid.Text + "/" + pfid.Text;    
+                uri = api_uri + "/api/resign/" + apikey.Text + "/" + dlid.Text + "/" + pfid.Text;    
             else
-                uri = "https://sandbox.xboxsdk.com/api/download/" + apikey.Text + "/" + dlid.Text;
+                uri = api_uri + "/api/download/" + apikey.Text + "/" + dlid.Text;
 
             // query API and get response
             JObject api_response = APIQuery(uri);
@@ -173,7 +178,7 @@ namespace ExampleApp
             string file = null;
 
             // build our API uri call
-            string uri = "https://sandbox.xboxsdk.com/api/upload/" + apikey.Text;
+            string uri = api_uri + "/api/upload/" + apikey.Text;
 
             // open our save
             OpenFileDialog odlg = new OpenFileDialog();
