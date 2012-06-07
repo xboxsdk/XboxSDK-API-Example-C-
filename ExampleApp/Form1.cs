@@ -148,11 +148,17 @@ namespace ExampleApp
         private void btnUpload_Click(object sender, EventArgs e)
         {
             // setup some post vars
+            if (txtName.Text == "" || txtDesc.Text == "")
+            {
+                MessageBox.Show("You must enter a save name and save description before uploading a save.", "Error!");
+                return;
+            }
+
             // in this example I used NamedValueCollection as it's a nice tidy way to store vars we can
             // then loop thorugh to setup our post data.
             NameValueCollection post_vars = new NameValueCollection();
-            post_vars.Add("name", "My awesome save!");
-            post_vars.Add("description", "This is my awesome save that was uploaded via the XboxSDK API!");
+            post_vars.Add("name", txtName.Text);
+            post_vars.Add("description", txtDesc.Text);
             
             string file = null;
 
