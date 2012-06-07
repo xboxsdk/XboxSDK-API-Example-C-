@@ -42,6 +42,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.pfid = new System.Windows.Forms.TextBox();
+            this.btnUpload = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -97,9 +98,9 @@
             // 
             this.listBox1.FormattingEnabled = true;
             this.listBox1.HorizontalScrollbar = true;
-            this.listBox1.Location = new System.Drawing.Point(12, 107);
+            this.listBox1.Location = new System.Drawing.Point(12, 133);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(408, 212);
+            this.listBox1.Size = new System.Drawing.Size(408, 186);
             this.listBox1.TabIndex = 4;
             // 
             // GetProfiles
@@ -165,11 +166,22 @@
             this.pfid.TabIndex = 11;
             this.pfid.Text = "Profile ID";
             // 
+            // btnUpload
+            // 
+            this.btnUpload.Location = new System.Drawing.Point(12, 106);
+            this.btnUpload.Name = "btnUpload";
+            this.btnUpload.Size = new System.Drawing.Size(86, 23);
+            this.btnUpload.TabIndex = 12;
+            this.btnUpload.Text = "Upload...";
+            this.btnUpload.UseVisualStyleBackColor = true;
+            this.btnUpload.Click += new System.EventHandler(this.btnUpload_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(432, 387);
+            this.Controls.Add(this.btnUpload);
             this.Controls.Add(this.pfid);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.label2);
@@ -208,6 +220,7 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TextBox pfid;
+        private System.Windows.Forms.Button btnUpload;
     }
 }
 

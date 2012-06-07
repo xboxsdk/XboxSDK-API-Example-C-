@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Net;
 using System.IO;
+using System.Web;
+using System.Collections.Specialized;
 
 // =========================================================================================================================================
 //                      bbbbbbbb                                                                                                          
@@ -143,6 +145,128 @@ namespace ExampleApp
             }
         }
 
+        private void btnUpload_Click(object sender, EventArgs e)
+        {
+            // setup some post vars
+            // in this example I used NamedValueCollection as it's a nice tidy way to store vars we can
+            // then loop thorugh to setup our post data.
+            NameValueCollection post_vars = new NameValueCollection();
+            post_vars.Add("name", "My awesome save!");
+            post_vars.Add("description", "This is my awesome save that was uploaded via the XboxSDK API!");
+            
+            string file = null;
+
+            // build our API uri call
+            string uri = "https://xboxsdk.com/api/upload/" + apikey.Text;
+
+            // open our save
+            OpenFileDialog odlg = new OpenFileDialog();
+            if (odlg.ShowDialog() == DialogResult.OK)
+                file = odlg.FileName;
+            else
+                return;
+
+            // read the save data into a byte array
+            byte[] file_data = File.ReadAllBytes(file);
+
+            // some output
+            listBox1.Items.Add("Uploading: " + Path.GetFileName(file));
+
+            // since this is a special requst using POST data we are NOT going to call our APIQuery function
+            // we are going to do our own custom call
+            //
+            // for this exaple I'll still be using HttpWebRequest however we are going to customize it using ContentType as 
+            // multipart/form-data and call several POST vars
+            string boundary = "----------------------" + DateTime.Now.Ticks.ToString("x");
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+            request.ContentType = "multipart/form-data; boundary=" + boundary;
+            request.Method = "POST";
+
+            // our memory stream we are going to ues to write all our form data (in a byte array) to
+            // request stream.
+            Stream mem_stream = new MemoryStream();
+
+            // our form boundary (in bytes)
+            byte[] boundary_bytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
+
+            // this will be our template string we can use for all our post vars
+            string formdata_template = "\r\n--" + boundary + "\r\nContent-Disposition: form-data; name=\"{0}\";\r\n\r\n{1}";
+
+            // loop thorugh each one of our post vars and build our byte array using our memory stream
+            foreach (string key in post_vars.Keys)
+            {
+                // get the bytes to our formitem by building a string, then getting our bytes and 
+                // writing it all to our memory stream
+                byte[] formitem_data = Encoding.UTF8.GetBytes(string.Format(formdata_template, key, post_vars[key]));
+                mem_stream.Write(formitem_data, 0, formitem_data.Length);
+            }
+
+            // write out post vars bounday
+            mem_stream.Write(boundary_bytes, 0, boundary_bytes.Length);
+
+            // now that we are done with the form data we need to deal with our save file (binary data)
+            // the file we are going to upload
+            byte[] formfile_data = Encoding.UTF8.GetBytes("Content-Disposition: form-data; name=\"save_data\"; filename=\"" + Path.GetFileName(file) + "\"\r\nContent-Type: application/octet-stream\r\n\r\n");
+
+            // write the data to our memory stream
+            mem_stream.Write(formfile_data, 0, formfile_data.Length);
+
+            // write the files actual data to the memory stream
+            mem_stream.Write(file_data, 0, file_data.Length);
+
+            // write our file data boundary
+            mem_stream.Write(boundary_bytes, 0, boundary_bytes.Length);
+
+            // YAY all done with our request lets write it and send it
+            // we need to set our content-length
+            request.ContentLength = mem_stream.Length;
+
+            // build our buffer and fill it with mem_stream data so we can send it via our new requeststream
+            // reset our mem_stream pos
+            mem_stream.Position = 0;
+            
+            byte[] send_buffer = new byte[mem_stream.Length];
+            mem_stream.Read(send_buffer, 0, send_buffer.Length);
+            
+            // done with mem_stream
+            mem_stream.Close();
+
+            // get our request stream
+            Stream dataStream = request.GetRequestStream();
+
+            // write the data to request stream
+            dataStream.Write(send_buffer, 0, send_buffer.Length);
+
+            // close
+            dataStream.Close();
+
+            // get our API response
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+            // get the stream associated with the response.
+            Stream receiveStream = response.GetResponseStream();
+
+            // pipes the stream to a higher level stream reader with the required encoding format. 
+            StreamReader readStream = new StreamReader(receiveStream, Encoding.UTF8);
+
+            // read our API response
+            string json_data = readStream.ReadToEnd();
+
+            response.Close();
+            readStream.Close();
+
+            // deserialize our json data into a nice JObject (thanks Newtonsoft <3)
+            JObject api_response = JObject.Parse(json_data);
+
+            // check to see if our API query was a success
+            if ((bool)api_response["success"])
+                MessageBox.Show((string)api_response["data"]["msg"], "Success");
+            else
+                MessageBox.Show((string)api_response["error"], "Error");
+        }
+
+
         // function to save api key to api.key file
         private void button5_Click(object sender, EventArgs e)
         {
@@ -154,6 +278,9 @@ namespace ExampleApp
         {
             listBox1.Items.Clear();
         }
+
+
+
 
         // APIQuery
         // function will call XboxSDK API with the passed uri and return it's response
@@ -197,6 +324,8 @@ namespace ExampleApp
             // deserialize our json data into a nice JObject (thanks Newtonsoft <3)
             return JObject.Parse(json_data);
         }
+
+        
     }
     
 }
