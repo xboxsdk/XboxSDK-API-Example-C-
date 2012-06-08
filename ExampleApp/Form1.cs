@@ -201,7 +201,14 @@ namespace ExampleApp
             // multipart/form-data and call several POST vars
             string boundary = "----------------------" + DateTime.Now.Ticks.ToString("x");
 
+            // build our web request
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+
+            // setup a extra long timeout (if we plan on uploading large files)
+            // default is 100,000 milliseconds (100 seconds)
+            request.Timeout = 3000000;
+
+            // our upload form type
             request.ContentType = "multipart/form-data; boundary=" + boundary;
             request.Method = "POST";
 
