@@ -44,25 +44,26 @@
             this.btnUpload = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.btnListSaves = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtName = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txtDesc = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -117,7 +118,7 @@
             // 
             this.listBox1.FormattingEnabled = true;
             this.listBox1.HorizontalScrollbar = true;
-            this.listBox1.Location = new System.Drawing.Point(12, 179);
+            this.listBox1.Location = new System.Drawing.Point(12, 204);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(408, 121);
             this.listBox1.TabIndex = 4;
@@ -134,7 +135,7 @@
             // 
             // DownloadSave
             // 
-            this.DownloadSave.Location = new System.Drawing.Point(307, 21);
+            this.DownloadSave.Location = new System.Drawing.Point(307, 17);
             this.DownloadSave.Name = "DownloadSave";
             this.DownloadSave.Size = new System.Drawing.Size(75, 23);
             this.DownloadSave.TabIndex = 7;
@@ -144,7 +145,7 @@
             // 
             // dlid
             // 
-            this.dlid.Location = new System.Drawing.Point(84, 23);
+            this.dlid.Location = new System.Drawing.Point(84, 19);
             this.dlid.Name = "dlid";
             this.dlid.Size = new System.Drawing.Size(52, 20);
             this.dlid.TabIndex = 8;
@@ -160,7 +161,7 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(12, 306);
+            this.richTextBox1.Location = new System.Drawing.Point(12, 335);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.Size = new System.Drawing.Size(408, 48);
@@ -169,7 +170,7 @@
             // 
             // pfid
             // 
-            this.pfid.Location = new System.Drawing.Point(217, 23);
+            this.pfid.Location = new System.Drawing.Point(217, 19);
             this.pfid.Name = "pfid";
             this.pfid.Size = new System.Drawing.Size(52, 20);
             this.pfid.TabIndex = 11;
@@ -193,7 +194,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 77);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(408, 96);
+            this.tabControl1.Size = new System.Drawing.Size(408, 121);
             this.tabControl1.TabIndex = 13;
             // 
             // tabPage1
@@ -202,10 +203,21 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(400, 70);
+            this.tabPage1.Size = new System.Drawing.Size(400, 95);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "General";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.GetUserInfo);
+            this.groupBox4.Controls.Add(this.GetProfiles);
+            this.groupBox4.Location = new System.Drawing.Point(6, 6);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(388, 58);
+            this.groupBox4.TabIndex = 0;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "General API Calls";
             // 
             // tabPage2
             // 
@@ -213,24 +225,14 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(400, 70);
+            this.tabPage2.Size = new System.Drawing.Size(400, 95);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Download";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.groupBox3);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(400, 70);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Upload";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnListSaves);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.DownloadSave);
             this.groupBox2.Controls.Add(this.label3);
@@ -238,44 +240,49 @@
             this.groupBox2.Controls.Add(this.dlid);
             this.groupBox2.Location = new System.Drawing.Point(6, 6);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(388, 58);
+            this.groupBox2.Size = new System.Drawing.Size(388, 82);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Download Info";
             // 
-            // label3
+            // btnListSaves
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 26);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(72, 13);
-            this.label3.TabIndex = 14;
-            this.label3.Text = "Download ID:";
+            this.btnListSaves.Location = new System.Drawing.Point(307, 45);
+            this.btnListSaves.Name = "btnListSaves";
+            this.btnListSaves.Size = new System.Drawing.Size(75, 23);
+            this.btnListSaves.TabIndex = 14;
+            this.btnListSaves.Text = "List Saves";
+            this.btnListSaves.UseVisualStyleBackColor = true;
+            this.btnListSaves.Click += new System.EventHandler(this.btnListSaves_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(158, 26);
+            this.label4.Location = new System.Drawing.Point(158, 22);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(53, 13);
             this.label4.TabIndex = 15;
             this.label4.Text = "Profile ID:";
             // 
-            // label5
+            // label3
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 26);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(38, 13);
-            this.label5.TabIndex = 14;
-            this.label5.Text = "Name:";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 22);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(72, 13);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "Download ID:";
             // 
-            // txtName
+            // tabPage3
             // 
-            this.txtName.Location = new System.Drawing.Point(50, 23);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(100, 20);
-            this.txtName.TabIndex = 14;
+            this.tabPage3.Controls.Add(this.groupBox3);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(400, 95);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Upload";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
@@ -307,22 +314,27 @@
             this.label6.TabIndex = 15;
             this.label6.Text = "Desc:";
             // 
-            // groupBox4
+            // txtName
             // 
-            this.groupBox4.Controls.Add(this.GetUserInfo);
-            this.groupBox4.Controls.Add(this.GetProfiles);
-            this.groupBox4.Location = new System.Drawing.Point(6, 6);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(388, 58);
-            this.groupBox4.TabIndex = 0;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "General API Calls";
+            this.txtName.Location = new System.Drawing.Point(50, 23);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(100, 20);
+            this.txtName.TabIndex = 14;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 26);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(38, 13);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "Name:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(430, 362);
+            this.ClientSize = new System.Drawing.Size(430, 389);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.label2);
@@ -338,13 +350,13 @@
             this.groupBox1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -378,6 +390,7 @@
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button btnListSaves;
     }
 }
 

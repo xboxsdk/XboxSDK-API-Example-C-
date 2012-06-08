@@ -160,6 +160,7 @@ namespace ExampleApp
             }
         }
 
+        // example function of how to upload a save via the API
         private void btnUpload_Click(object sender, EventArgs e)
         {
             // setup some post vars
@@ -287,6 +288,34 @@ namespace ExampleApp
                 MessageBox.Show((string)api_response["error"], "Error");
         }
 
+        // function to get a list of all saves currently in the database
+        private void btnListSaves_Click(object sender, EventArgs e)
+        {
+            // our api uri
+            string uri = api_uri + "/api/saves/" + apikey.Text;
+
+            // query API and get response
+            JObject api_response = APIQuery(uri);
+
+            // check to see if our API query was a success
+            if ((bool)api_response["success"])
+            {
+                // loop through each of our saves
+                foreach (JObject save in api_response["data"])
+                {
+                    listBox1.Items.Add("---------------- Save ----------------");
+                    listBox1.Items.Add("ID: \t\t" + save["id"]);
+                    listBox1.Items.Add("Title ID: \t\t" + save["title_id"]);
+                    listBox1.Items.Add("Save Title: \t" + save["title_save"]);
+                    listBox1.Items.Add("Uploader: \t" + save["user_name"]);
+                    listBox1.Items.Add(" ");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Error: " + api_response["error"]);
+            }
+        }
 
         // function to save api key to api.key file
         private void button5_Click(object sender, EventArgs e)
@@ -299,9 +328,6 @@ namespace ExampleApp
         {
             listBox1.Items.Clear();
         }
-
-
-
 
         // APIQuery
         // function will call XboxSDK API with the passed uri and return it's response
@@ -345,7 +371,6 @@ namespace ExampleApp
             // deserialize our json data into a nice JObject (thanks Newtonsoft <3)
             return JObject.Parse(json_data);
         }
-
         
     }
     
