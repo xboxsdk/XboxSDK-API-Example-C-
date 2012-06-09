@@ -210,6 +210,11 @@ namespace ExampleApp
 
             // our upload form type
             request.ContentType = "multipart/form-data; boundary=" + boundary;
+            
+            // needed for strict http 1/1 compliance.
+            ServicePointManager.Expect100Continue = false;
+
+            // our reqest method
             request.Method = "POST";
 
             // our memory stream we are going to ues to write all our form data (in a byte array) to
